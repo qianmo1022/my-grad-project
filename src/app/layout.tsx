@@ -1,75 +1,71 @@
 "use client";
 
 import React from "react";
-import { Layout, Menu, theme } from "antd";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { Layout, theme } from "antd";
 import Image from "next/image";
+import './globals.css'
+import { UserOutlined,ShoppingCartOutlined } from '@ant-design/icons';
 
 const { Header, Content, Footer } = Layout;
-
-const items = new Array(3).fill(null).map((_, index) => ({
-  key: String(index + 1),
-  label: `nav ${index + 1}`,
-}));
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const RootLayout = ({ children }: React.PropsWithChildren) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   return (
-    <html>
+    <html lang="en">
       <body style={{ margin: 0 }}>
-        <Layout style={{ minHeight: "100vh" }}>
-          <Header
-            style={{
-              position: "sticky",
-              top: 0,
-              zIndex: 1,
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              
-            }}
-          >
-            <div className="demo-logo">
-              <Image
-                src="/logo_app.png"
-                width={105}
-                height={80}
-                className="hidden md:block"
-                alt="logo"
-              />
-            </div>
-            <Menu
-              theme="dark"
-              mode="horizontal"
-              defaultSelectedKeys={["2"]}
-              items={items}
-              style={{ flex: 1, minWidth: 0 }}
-            />
-          </Header>
-          <Content style={{ padding: "0 48px" }}>
-            <div
+        <AntdRegistry>
+          <Layout style={{ minHeight: "100vh" }}>
+            <Header
               style={{
-                padding: 24,
-                minHeight: 380,
-                background: colorBgContainer,
-                borderRadius: borderRadiusLG,
+                position: "sticky",
+                top: 0,
+                zIndex: 1,
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: "#f1f1f1",
+                justifyContent: "space-between",
               }}
             >
-              {children}
-            </div>
-          </Content>
-          <Footer style={{ textAlign: "center" }}>
-            Ant Design ©{new Date().getFullYear()} Created by Ant UED
-          </Footer>
-        </Layout>
+              <div
+                className="logo"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: 64, // 设置与 Image 高度一致
+                }}
+              >
+                <Image src="/next.svg" alt="logo" width={80} height={64} />
+              </div>
+              <div style={{ display: "flex", gap: 16 }}>
+              <UserOutlined style={{ fontSize: 24 }}/>
+              <ShoppingCartOutlined style={{ fontSize: 24 }}/>
+              </div>
+            </Header>
+            <Content style={{ padding: "0 48px" }}>
+              <div
+                style={{
+                  padding: 24,
+                  minHeight: 380,
+                  background: colorBgContainer,
+                  borderRadius: borderRadiusLG,
+                }}
+              >
+                {children}
+              </div>
+            </Content>
+            <Footer style={{ textAlign: "center" }}>
+              Ant Design ©{new Date().getFullYear()} Created by wuyeqianli
+            </Footer>
+          </Layout>
+        </AntdRegistry>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
