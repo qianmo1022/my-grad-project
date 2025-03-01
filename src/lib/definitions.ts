@@ -4,4 +4,6 @@ export type RecRadioProps = {
 }
 export type CircleRadioProps = {
     color: string;
+    colorName: string;
+    price: string;
 }

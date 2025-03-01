@@ -1,16 +1,18 @@
+import { CircleRadioProps } from "@/lib/definitions";
+
 interface CircleRadioComponentProps {
-    color: string;
+    info: CircleRadioProps;
     isSelected: boolean;
     onChange: () => void;
 }
 
-export default function CircleRadio({ color, isSelected ,onChange}: CircleRadioComponentProps) {
+export default function CircleRadio({ info, isSelected ,onChange}: CircleRadioComponentProps) {
     const circleStyle = {
-        backgroundColor: color,
-        border: isSelected ? `3px solid ${color}` : 'none',
-        boxShadow: isSelected ? `0 0 0 3px rgba(0, 0, 0, 0.1)` : 'none'
+        backgroundColor: info.color,
+        outline: isSelected ? `8px solid ${info.color}` : '8px solid transparent',
+        outlineOffset: '-8px',
     };
-    const containerClass = `flex items-center justify-center ${isSelected? 'border border-[#000000]' : ''} rounded-full p-2 `;
+    const containerClass = `flex items-center justify-center ${isSelected? 'border border-[#000000]' : ''} rounded-full p-2 m-1`;
 
     return (
         <div className={containerClass} onClick={onChange}>
