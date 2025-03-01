@@ -1,3 +1,4 @@
+'use client'
 import RecRadio from "../items/rec-radio";
 import { RecRadioProps } from "../../lib/definitions";
 import { useState } from 'react';
@@ -16,7 +17,7 @@ export default function Version() {
 
     return (
         <div className="flex flex-col">
-            <p className="text-2xl m-4">版本</p>
+            <p className="text-2xl my-4">版本</p>
             {version.map((item, index) => {
                 const isSelected = selectedIndex === index;
                 return <RecRadio 

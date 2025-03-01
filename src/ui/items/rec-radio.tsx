@@ -9,7 +9,7 @@ interface RecRadioComponentProps {
 
 export default function RecRadio({info,isSelected,onChange}: RecRadioComponentProps) {
     // 根据 isSelected 动态添加 CSS 类
-    const containerClass = `flex flex-col border border-[#000000] rounded-lg p-4 mt-4 ${isSelected ? 'bg-blue-100' : ''}`;
+    const containerClass = `flex flex-col border ${isSelected ? 'border-[#000000]' : 'border-[#d9d9d9]'} border-[#000000] rounded-lg p-4 mt-4 `;
 
     return (
         <div className={containerClass} onClick={onChange}>
