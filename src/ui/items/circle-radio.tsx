@@ -9,10 +9,10 @@ interface CircleRadioComponentProps {
 export default function CircleRadio({ info, isSelected ,onChange}: CircleRadioComponentProps) {
     const circleStyle = {
         backgroundColor: info.color,
-        outline: isSelected ? `8px solid ${info.color}` : '8px solid transparent',
+        outline: isSelected ? `8px solid ${info.color}` : 'none',
         outlineOffset: '-8px',
     };
-    const containerClass = `flex items-center justify-center ${isSelected? 'border border-[#000000]' : ''} rounded-full p-2 m-1`;
+    const containerClass = `flex items-center justify-center ${isSelected? 'border border-[#000000]' : 'border border-transparent'} rounded-full p-2 m-1`;
 
     return (
         <div className={containerClass} onClick={onChange}>

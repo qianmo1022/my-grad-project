@@ -25,7 +25,7 @@ export default function Appearance() {
 
   return (
     <div className="flex flex-col">
-      <p className="text-2xl my-4">外观</p>
+      <p className="text-xl my-4">外观</p>
       {selectedInfo && (
         <div className="flex place-content-between font-thin">
           <p className="text-base">{selectedInfo.colorName}</p>

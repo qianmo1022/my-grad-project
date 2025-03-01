@@ -6,7 +6,7 @@ export default async function Page() {
       <div className="col-span-6">
         <Image src="/ev-purple.png" alt="ev-purple" width={857} height={788} />
       </div>
-      <div className="flex flex-col mx-8 col-span-4">
+      <div className="flex flex-col mx-8 col-span-4 overflow-y-auto max-h-screen">
         <MatchForm />
       </div>
     </div>
