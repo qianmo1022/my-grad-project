@@ -2,14 +2,13 @@
 import RecRadio from "../items/rec-radio";
 import { RecRadioProps } from "../../lib/definitions";
 import { useState } from 'react';
+import Image from "next/image";
 
-export const version: RecRadioProps[] = [
-    { title: "智界 R7 纯电 Pro", description: "25.98万元起 最高667km长续航 | 满血途灵平台 HUAWEI ADS 基础版" },
-    { title: "智界 R7 纯电 Max", description: "29.98万元起 最高802km超长续航 | 满血途灵平台 HUAWEI ADS 3.0高阶智能驾驶" }, 
-    { title: "智界 R7 纯电 Ultra", description: "33.98万元起 最高736km超长续航 | 双电机四驱 HUAWEI ADS 3.0高阶智能驾驶" }, 
+export const battery: RecRadioProps[] = [
+    { title: "82度电池包", description: "价格已包含" },
 ];
 
-export default function Version() {
+export default function Battery() {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(0);
 
     const handleRadioChange = (index: number) => {
@@ -18,8 +17,18 @@ export default function Version() {
 
     return (
         <div className="flex flex-col">
-            <p className="text-xl my-4">版本</p>
-            {version.map((item, index) => {
+            <p className="text-xl my-4">电池</p>
+            {selectedIndex !== null && (
+                <div className="mx-auto w-[80%] h-[10vh] px-[10%] relative">
+                <Image
+                    src={"/Battery.jpg"}
+                    fill
+                    className="object-cover"
+                    alt="battery"
+                />
+                </div>
+            )}
+            {battery.map((item, index) => {
                 const isSelected = selectedIndex === index;
                 return <RecRadio 
                     key={index} 

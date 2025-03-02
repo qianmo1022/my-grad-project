@@ -13,8 +13,8 @@ export default function RecRadio({info,isSelected,onChange}: RecRadioComponentPr
 
     return (
         <div className={containerClass} onClick={onChange}>
-            <p className="text-xl font-bold">{info.title}</p>
-            <p className="text-lg">{info.description}</p>
+            <p className="text-lg font-bold">{info.title}</p>
+            <p className="text-base">{info.description}</p>
         </div>
     );
 }

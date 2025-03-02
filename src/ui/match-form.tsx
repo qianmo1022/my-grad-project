@@ -1,6 +1,7 @@
 import Version from "./parts/version";
 import Appearance from "./parts/appearance";
 import Interior from "./parts/interior";
+import Battery from "./parts/battery";
 
 export default function MatchForm() {
     return (
@@ -9,6 +10,7 @@ export default function MatchForm() {
             <Version />
             <Appearance />
             <Interior />
+            <Battery />
         </div>
     );
 }
