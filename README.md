@@ -8,3 +8,4 @@ This is my graduation project, a website that realizes the vehicle configuration
 - Three.js
 - Tailwind CSS
 - TypeScript
+- ESLint
