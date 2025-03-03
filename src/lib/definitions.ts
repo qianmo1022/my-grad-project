@@ -7,3 +7,8 @@ export type CircleRadioProps = {
     colorName: string;
     price: string;
 }
+export type CircleRadioImgProps = {
+    img: string;
+    name: string;
+    price: string;
+}
