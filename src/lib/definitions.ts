@@ -1,6 +1,6 @@
 export type RecRadioProps = {
     title: string;
-    description: string;
+    description: string | string[];
 }
 export type CircleRadioProps = {
     color: string;
