@@ -3,6 +3,7 @@ import Appearance from "./parts/appearance";
 import Interior from "./parts/interior";
 import Battery from "./parts/battery";
 import Hub from "./parts/hub";
+import Seat from "./parts/seat";
 
 export default function MatchForm() {
     return (
@@ -13,6 +14,7 @@ export default function MatchForm() {
             <Interior />
             <Battery />
             <Hub />
+            <Seat />
         </div>
     );
 }
