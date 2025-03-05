@@ -6,6 +6,7 @@ import { Layout, theme } from "antd";
 import Image from "next/image";
 import './globals.css'
 import { UserOutlined,ShoppingCartOutlined } from '@ant-design/icons';
+import '@ant-design/v5-patch-for-react-19';
 
 const { Header, Content, Footer } = Layout;
 const RootLayout = ({ children }: React.PropsWithChildren) => {
