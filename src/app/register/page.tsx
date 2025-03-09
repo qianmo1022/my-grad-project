@@ -19,7 +19,7 @@ export default function RegisterPage() {
       const data = await response.json();
       if (response.ok) {
         message.success(data.message);
-        router.push('/auth/login');
+        router.push('/login');
       } else {
         message.error(data.error);
       }
@@ -75,7 +75,7 @@ export default function RegisterPage() {
       </Form>
       <div className="text-center">
         <span className="text-gray-600">已有账号？</span>
-        <Button type="link" onClick={() => router.push('/auth/login')}>
+        <Button type="link" onClick={() => router.push('/login')}>
           立即登录
         </Button>
       </div>

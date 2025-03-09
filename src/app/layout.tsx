@@ -2,17 +2,57 @@
 
 import React from "react";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { Layout, theme } from "antd";
+import { Layout, theme, Button, Dropdown, Menu } from "antd";
 import Image from "next/image";
-import './globals.css'
-import { UserOutlined,ShoppingCartOutlined } from '@ant-design/icons';
-import '@ant-design/v5-patch-for-react-19';
+import "./globals.css";
+import {
+  UserOutlined,
+  ShoppingCartOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
+import "@ant-design/v5-patch-for-react-19";
+import { useUserStore } from "@/stores/userStore";
+import { useRouter } from "next/navigation";
+import type { MenuProps } from "antd";
 
 const { Header, Content, Footer } = Layout;
 const RootLayout = ({ children }: React.PropsWithChildren) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const { user, isAuthenticated, logout } = useUserStore();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        logout(); // 清除状态
+        router.push("/login");
+      }
+    } catch (error) {
+      console.error("登出失败:", error);
+    }
+  };
+
+  const userMenu: MenuProps["items"] = [
+    {
+      key: "1",
+      label: `email: ${user?.email}`,
+    },
+    {
+      key: "2",
+      icon: <LogoutOutlined />,
+      label: "退出登录",
+      onClick: handleLogout,
+    },
+
+  ];
 
   return (
     <html lang="en">
@@ -42,9 +82,22 @@ const RootLayout = ({ children }: React.PropsWithChildren) => {
               >
                 <Image src="/next.svg" alt="logo" width={80} height={64} />
               </div>
-              <div style={{ display: "flex", gap: 16 }}>
-              <UserOutlined style={{ fontSize: 24 }}/>
-              <ShoppingCartOutlined style={{ fontSize: 24 }}/>
+              <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+                {isAuthenticated ? (
+                  <>
+                    <Dropdown menu={{items:userMenu}} placement="bottomRight">
+                      <Button
+                        type="text"
+                        icon={<UserOutlined style={{ fontSize: 24 }} />}
+                      />
+                    </Dropdown>
+                    <ShoppingCartOutlined style={{ fontSize: 24 }} />
+                  </>
+                ) : (
+                  <Button type="primary" onClick={() => router.push("/login")}>
+                    登录
+                  </Button>
+                )}
               </div>
             </Header>
             <Content style={{ padding: "0 48px" }}>
