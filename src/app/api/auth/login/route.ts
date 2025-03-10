@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
     // 设置Cookie
     const response = NextResponse.json(
-      { message: '登录成功', user: { id: user.id, email: user.email } },
+      { message: '登录成功', user: { name: user.name, email: user.email,  } },
       { status: 200 }
     );
     

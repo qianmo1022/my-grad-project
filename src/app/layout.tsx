@@ -2,7 +2,7 @@
 
 import React from "react";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { Layout, theme, Button, Dropdown, Menu } from "antd";
+import { Layout, theme, Button, Dropdown } from "antd";
 import Image from "next/image";
 import "./globals.css";
 import {
@@ -47,6 +47,10 @@ const RootLayout = ({ children }: React.PropsWithChildren) => {
     },
     {
       key: "2",
+      label: `name: ${user?.name}`,
+    },
+    {
+      key: "3",
       icon: <LogoutOutlined />,
       label: "退出登录",
       onClick: handleLogout,
