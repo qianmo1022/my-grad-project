@@ -3,12 +3,13 @@
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
 import { useRouter } from 'next/navigation';
+import { User } from '@/lib/definitions';
 
 export default function RegisterPage() {
   const [form] = Form.useForm();
   const router = useRouter();
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: User) => {
     try {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
@@ -24,6 +25,7 @@ export default function RegisterPage() {
         message.error(data.error);
       }
     } catch (error) {
+      console.error('注册失败:', error);
       message.error('注册失败');
     }
   };

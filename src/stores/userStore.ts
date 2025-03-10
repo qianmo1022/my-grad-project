@@ -1,11 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-type User = {
-  id: string;
-  email: string;
-  name?: string;
-};
+import { User } from '@/lib/definitions';
 
 type Order = {
   id: string;

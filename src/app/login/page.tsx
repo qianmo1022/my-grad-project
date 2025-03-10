@@ -6,13 +6,18 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useUserStore } from '@/stores/userStore';
 
+type loginFormProps = {
+  email: string;
+  password: string;
+};
+
 export default function LoginPage() {
   const [form] = Form.useForm();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { setUser, setIsAuthenticated } = useUserStore();
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: loginFormProps) => {
     setLoading(true);
     try {
       const response = await fetch('/api/auth/login', {
@@ -35,6 +40,7 @@ export default function LoginPage() {
         message.error(data.error);
       }
     } catch (error) {
+      console.error('登录失败:', error);
       message.error('登录失败');
     } finally {
       setLoading(false);
