@@ -33,7 +33,7 @@ const RootLayout = ({ children }: React.PropsWithChildren) => {
 
       if (response.ok) {
         logout(); // 清除状态
-        router.push("/login");
+        router.push("/");
       }
     } catch (error) {
       console.error("登出失败:", error);
