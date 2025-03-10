@@ -1,14 +1,14 @@
 import type { NextAuthConfig } from 'next-auth';
-
-export const authConfig: NextAuthConfig = {
+ 
+export const authConfig = {
   pages: {
     signIn: '/login',
   },
   callbacks: {
-    authorized({ auth, request }: { auth: any; request: any }) {
+    authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isOnProtectedPage = ['/EV', '/ER'].some(path => 
-        request.nextUrl.pathname.startsWith(path)
+        nextUrl.pathname.startsWith(path)
       );
       
       if (isOnProtectedPage) {
@@ -19,4 +19,4 @@ export const authConfig: NextAuthConfig = {
     },
   },
   providers: [],
-};
+} satisfies NextAuthConfig;

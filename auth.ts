@@ -1,47 +1,42 @@
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
-import { cookies } from 'next/headers';
+import Credentials from "next-auth/providers/credentials";
+import { z } from "zod";
+import type { User } from '@/lib/definitions';
+import bcryptjs from 'bcryptjs';
+import postgres from 'postgres';
 
-async function getUser() {
-  const authToken = cookies().get('auth_token')?.value;
-  
-  if (!authToken) {
-    return null;
-  }
-  
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+
+async function getUser(email: string): Promise<User | undefined> {
   try {
-    // 这里我们只是验证token存在，实际项目中可能需要验证token的有效性
-    return { id: 'user-id', name: 'User', email: 'user@example.com' };
+    const user = await sql<User[]>`SELECT * FROM users WHERE email=${email}`;
+    return user[0];
   } catch (error) {
-    console.error('Auth token validation error:', error);
-    return null;
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
   }
 }
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
-  callbacks: {
-    async session({ session }) {
-      const user = await getUser();
-      if (user) {
-        session.user = user;
+
+  providers: [
+    Credentials({
+      async authorize(credentials) {
+        const parsedCredentials = z.object({
+          email: z.string().email(),
+          password: z.string().min(6),
+        }).safeParse(credentials);
+        if (parsedCredentials.success) {
+          const { email, password } = parsedCredentials.data;
+          const user = await getUser(email);
+          if (!user) return null;
+          const passwordsMatch = await bcryptjs.compare(password, user.password);
+          if (passwordsMatch) return user;
+        }
+        return null
       }
-      return session;
-    },
-    async authorized({ auth, request }) {
-      const user = await getUser();
-      const isLoggedIn = !!user;
-      const { nextUrl } = request;
-      const isOnProtectedPage = ['/EV', '/ER'].some(path => 
-        nextUrl.pathname.startsWith(path)
-      );
-      
-      if (isOnProtectedPage) {
-        if (isLoggedIn) return true;
-        return false; // 重定向到登录页面
-      }
-      
-      return true;
-    },
-  },
+    })
+  ]
 });
