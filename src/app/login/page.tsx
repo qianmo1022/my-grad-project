@@ -20,10 +20,14 @@ export default function LoginPage() {
 
   useEffect(() => {
     // 在组件加载时获取URL参数
-    const urlParams = new URLSearchParams(window.location.search);
-    const callback = urlParams.get('callbackUrl');
-    if (callback) {
-      setCallbackUrl(callback);
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const callback = urlParams.get('callbackUrl');
+      if (callback) {
+        // 确保URL正确解码
+        setCallbackUrl(decodeURIComponent(callback));
+      }
+      console.log('Callback URL:', callback); // 调试信息
     }
   }, []);
 
@@ -43,9 +47,10 @@ export default function LoginPage() {
         message.success(data.message);
         
         // 使用保存的callbackUrl或默认路径
+        console.log('登录成功，准备跳转到:', callbackUrl || '/'); // 调试信息
         setTimeout(() => {
           router.push(callbackUrl || '/');
-        }, 100); // 添加小延迟确保状态更新完成
+        }, 300); // 增加延迟时间确保状态更新完成
       } else {
         message.error(data.error);
       }
@@ -62,7 +67,7 @@ export default function LoginPage() {
       <h1 className="text-2xl font-bold mb-6">用户登录</h1>
       {callbackUrl && (
         <div className="mb-4 text-sm text-blue-600">
-          登录后将跳转到您之前访问的页面
+          登录后将跳转到您之前访问的页面: {callbackUrl}
         </div>
       )}
       <Spin spinning={loading}>
