@@ -53,9 +53,10 @@ export default function LoginPage() {
         
         // 使用保存的callbackUrl或默认路径
         console.log('登录成功，准备跳转到:', callbackUrl || '/'); // 调试信息
+        // 使用window.location.href替代router.push以避免消息通道关闭错误
         setTimeout(() => {
-          router.push(callbackUrl || '/');
-        }, 300); // 增加延迟时间确保状态更新完成
+          window.location.href = callbackUrl || '/';
+        }, 500); // 增加延迟时间确保状态更新完成
       } else {
         message.error(data.error);
       }
