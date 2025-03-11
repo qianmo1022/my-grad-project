@@ -3,7 +3,7 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message, Spin } from 'antd';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useUserStore } from '@/stores/userStore';
 
 type loginFormProps = {
@@ -16,6 +16,16 @@ export default function LoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { setUser, setIsAuthenticated } = useUserStore();
+  const [callbackUrl, setCallbackUrl] = useState('');
+
+  useEffect(() => {
+    // 在组件加载时获取URL参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const callback = urlParams.get('callbackUrl');
+    if (callback) {
+      setCallbackUrl(callback);
+    }
+  }, []);
 
   const onFinish = async (values: loginFormProps) => {
     setLoading(true);
@@ -32,10 +42,10 @@ export default function LoginPage() {
         setIsAuthenticated(true);
         message.success(data.message);
         
-        // 检查URL中是否有回调地址
-        const urlParams = new URLSearchParams(window.location.search);
-        const callbackUrl = urlParams.get('callbackUrl');
-        router.push(callbackUrl || '/');
+        // 使用保存的callbackUrl或默认路径
+        setTimeout(() => {
+          router.push(callbackUrl || '/');
+        }, 100); // 添加小延迟确保状态更新完成
       } else {
         message.error(data.error);
       }
@@ -50,6 +60,11 @@ export default function LoginPage() {
   return (
     <div className="max-w-md mx-auto mt-20 p-6 shadow-lg">
       <h1 className="text-2xl font-bold mb-6">用户登录</h1>
+      {callbackUrl && (
+        <div className="mb-4 text-sm text-blue-600">
+          登录后将跳转到您之前访问的页面
+        </div>
+      )}
       <Spin spinning={loading}>
         <Form
           form={form}

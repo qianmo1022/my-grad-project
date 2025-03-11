@@ -17,7 +17,10 @@ export function ProtectedRoute({ children, requiredAuth = true }: ProtectedRoute
     // 如果需要认证但用户未登录，则重定向到登录页面
     if (!isLoading && requiredAuth && !isAuthenticated) {
       const currentPath = window.location.pathname;
-      router.push(`/login?callbackUrl=${encodeURIComponent(currentPath)}`);
+      // 添加一个小延迟确保状态更新完成
+      setTimeout(() => {
+        router.push(`/login?callbackUrl=${encodeURIComponent(currentPath)}`);
+      }, 50);
     }
   }, [isAuthenticated, isLoading, requiredAuth, router]);
 
