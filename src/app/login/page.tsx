@@ -24,8 +24,13 @@ export default function LoginPage() {
       const urlParams = new URLSearchParams(window.location.search);
       const callback = urlParams.get('callbackUrl');
       if (callback) {
-        // 确保URL正确解码
-        setCallbackUrl(decodeURIComponent(callback));
+        // 处理可能的双重编码情况
+        let decodedCallback = decodeURIComponent(callback);
+        // 检查是否仍然包含编码字符（如%2F），如果有则再次解码
+        if (decodedCallback.includes('%')) {
+          decodedCallback = decodeURIComponent(decodedCallback);
+        }
+        setCallbackUrl(decodedCallback);
       }
       console.log('Callback URL:', callback); // 调试信息
     }

@@ -11,8 +11,8 @@ export function middleware(request: NextRequest) {
   // 保护需要认证的路由
   if (protectedRoutes.some(p => pathname.startsWith(p)) && !isLoggedIn) {
     const loginUrl = new URL('/login', request.url)
-    // 确保URL参数正确编码
-    loginUrl.searchParams.set('callbackUrl', encodeURIComponent(pathname))
+    // 直接使用pathname，避免双重编码
+    loginUrl.searchParams.set('callbackUrl', pathname)
     return NextResponse.redirect(loginUrl)
   }
 
