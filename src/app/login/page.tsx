@@ -32,7 +32,6 @@ export default function LoginPage() {
         }
         setCallbackUrl(decodedCallback);
       }
-      console.log('Callback URL:', callback); // 调试信息
     }
   }, []);
 
@@ -51,8 +50,6 @@ export default function LoginPage() {
         setIsAuthenticated(true);
         message.success(data.message);
         
-        // 使用保存的callbackUrl或默认路径
-        console.log('登录成功，准备跳转到:', callbackUrl || '/'); // 调试信息
         // 使用window.location.href替代router.push以避免消息通道关闭错误
         setTimeout(() => {
           window.location.href = callbackUrl || '/';
@@ -71,11 +68,6 @@ export default function LoginPage() {
   return (
     <div className="max-w-md mx-auto mt-20 p-6 shadow-lg">
       <h1 className="text-2xl font-bold mb-6">用户登录</h1>
-      {callbackUrl && (
-        <div className="mb-4 text-sm text-blue-600">
-          登录后将跳转到您之前访问的页面: {callbackUrl}
-        </div>
-      )}
       <Spin spinning={loading}>
         <Form
           form={form}
