@@ -1,6 +1,5 @@
 import type { NextAuthConfig } from 'next-auth';
-import { NextResponse } from 'next/server'
- 
+
 export const authConfig = {
   pages: {
     signIn: '/login',
@@ -11,14 +10,21 @@ export const authConfig = {
       const isOnProtectedPage = ['/EV', '/ER'].some(path => 
         nextUrl.pathname.startsWith(path)
       );
+      const isAuthPage = ['/login', '/register'].some(path => 
+        nextUrl.pathname.endsWith(path)
+      );
       
+      // 保护页面需要登录
       if (isOnProtectedPage) {
-        if (isLoggedIn) return true;
-        return false
-      } else if(isLoggedIn) {
-        return NextResponse.redirect(new URL('/', nextUrl))
+        return isLoggedIn;
       }
-      return true
+      
+      // 已登录用户不应访问登录/注册页面
+      if (isAuthPage && isLoggedIn) {
+        return false; // 将在middleware中重定向到首页
+      }
+      
+      return true;
     },
   },
   providers: [],
